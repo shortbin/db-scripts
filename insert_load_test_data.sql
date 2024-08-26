@@ -86,10 +86,10 @@ BEGIN
 
     IF 0.10 < rand_value AND rand_value < 0.25 THEN
         -- Generate a 7-digit random number
-        random_number := FLOOR(RANDOM() * 9000000) + 1000000;
+        random_number := FLOOR(RANDOM() * 100) + 1;
         RETURN random_number;
     ELSIF rand_value < 0.10 THEN
-        RETURN 8042002;
+        RETURN 8;
     ELSE
         RETURN NULL;
     END IF;
@@ -138,6 +138,19 @@ $$ LANGUAGE plpgsql;
 ------------------------------------------------------------
 
 
+-- Create 100k `users`
+INSERT INTO users
+SELECT gs.value                              as id,
+       substring(md5(random()::text), 1, 10) as username,
+       substring(md5(random()::text), 1, 10) as mail,
+       substring(md5(random()::text), 1, 10) as password_hash,
+       substring(md5(random()::text), 1, 5)  as password_salt
+FROM generate_series(1, 100000) AS gs(value);
+
+
+------------------------------------------------------------
+
+
 -- Temporary table `intermediate_urls`
 DROP TABLE IF EXISTS intermediate_urls;
 
@@ -147,23 +160,10 @@ SELECT (random_string(7))::varchar(7)                                     as sho
        (random_user_id())::int                                            as user_id,
        (random_timestamp('2024-04-08 16:00:00', 'created_at'))::timestamp as created_at
 FROM
-    generate_series(1, 10000000); -- Number of rows to generate, 10 Million
+    generate_series(1, 10000000); -- Generate 10 Million records
 
 
 ------------------------------------------------------------
-
-
--- Insert data into `users`
-INSERT INTO users
-SELECT user_id                               as id,
-       substring(md5(random()::text), 1, 10) as username,
-       substring(md5(random()::text), 1, 10) as mail,
-       substring(md5(random()::text), 1, 10) as password_hash,
-       substring(md5(random()::text), 1, 5)  as password_salt
-FROM intermediate_urls
-WHERE user_id IS NOT NULL
--- in case of dupes
-ON CONFLICT (id) DO NOTHING;
 
 
 -- Insert data into `urls`

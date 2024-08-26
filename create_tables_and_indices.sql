@@ -9,9 +9,9 @@ CREATE TABLE IF NOT EXISTS users
     created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Indices for `users` table
-CREATE INDEX idx_users_username ON users USING HASH (username);
-CREATE INDEX idx_users_email ON users USING HASH (email);
+-- Indices for `users` table (not creating as UNIQUE idx is automatically created)
+-- CREATE INDEX idx_users_username ON users USING HASH (username);
+-- CREATE INDEX idx_users_email ON users USING HASH (email);
 
 
 ------------------------------------------------------------
