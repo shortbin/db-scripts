@@ -24,8 +24,7 @@ CREATE TABLE IF NOT EXISTS urls
     long       VARCHAR   NOT NULL,
     user_id    INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    expires_at TIMESTAMP NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users (id)
+    expires_at TIMESTAMP NOT NULL
 );
 
 -- Indices for `urls` table
