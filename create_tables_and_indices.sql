@@ -1,16 +1,15 @@
 -- Table `users`
 CREATE TABLE IF NOT EXISTS users
 (
-    id            SERIAL PRIMARY KEY,
-    username      VARCHAR(25) UNIQUE NOT NULL,
-    email         VARCHAR(25) UNIQUE NOT NULL,
-    password_hash TEXT               NOT NULL,
-    password_salt TEXT               NOT NULL,
-    created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    id              UUID PRIMARY KEY,
+    email           VARCHAR(25) UNIQUE,
+    oauth_provider  VARCHAR(25),
+    oauth_uid       VARCHAR(50),
+    hashed_password TEXT NOT NULL,
+    created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Indices for `users` table (not creating as UNIQUE idx is automatically created)
--- CREATE INDEX idx_users_username ON users USING HASH (username);
 -- CREATE INDEX idx_users_email ON users USING HASH (email);
 
 
@@ -20,8 +19,8 @@ CREATE TABLE IF NOT EXISTS users
 -- Table `urls`
 CREATE TABLE IF NOT EXISTS urls
 (
-    short      VARCHAR(7) PRIMARY KEY,
-    long       VARCHAR   NOT NULL,
+    short_id   VARCHAR(7) PRIMARY KEY,
+    long_url   VARCHAR   NOT NULL,
     user_id    INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     expires_at TIMESTAMP NOT NULL
