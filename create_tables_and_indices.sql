@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS urls
 (
     short_id   VARCHAR(7) PRIMARY KEY,
     long_url   VARCHAR   NOT NULL,
-    user_id    INT,
+    user_id    UUID,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     expires_at TIMESTAMP NOT NULL
 );
