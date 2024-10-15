@@ -29,3 +29,15 @@ CREATE TABLE IF NOT EXISTS urls
 
 -- Indices for `urls` table
 CREATE INDEX idx_urls_userid_key ON urls (user_id); --USING HASH (user_id);
+
+
+------------------------------------------------------------
+
+
+-- Table `click_analytics`
+CREATE TABLE click_analytics (
+    short_id TEXT PRIMARY KEY,
+    count INT DEFAULT 0,
+    countries JSONB DEFAULT '{}'::jsonb,
+    referers JSONB DEFAULT '{}'::jsonb
+);
