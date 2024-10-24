@@ -2,6 +2,17 @@
 
 db.serverStatus();
 
+// Lifetime Stats
+
+db.clicks.updateOne(
+    { _id: "abc12345"},
+    { $inc: { "clicks": 2, "countries.UK": 2, "referers.gwthm": 1 } },
+    { upsert: true }
+);
+
+
+// Per Day Stats
+
 db.clicks.updateOne(
     { short_id: "abc12345", date: { $eq: new Date("2024-10-22") } },
     { $inc: { "clicks": 2, "countries.UK": 2, "referers.gwthm": 1 } },
@@ -101,6 +112,12 @@ db.clicks.aggregate([
         }
     }
 ]);
+
+
+// 
+// 
+// 
+// Tests
 
 
 db.runCommand(
