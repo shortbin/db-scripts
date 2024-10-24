@@ -5,8 +5,7 @@ INSERT INTO users
 SELECT gs.value                              as id,
        substring(md5(random()::text), 1, 10) as username,
        substring(md5(random()::text), 1, 10) as mail,
-       substring(md5(random()::text), 1, 10) as password_hash,
-       substring(md5(random()::text), 1, 5)  as password_salt
+       substring(md5(random()::text), 1, 10) as password_hash
 FROM generate_series(1, 100000) AS gs(value);
 
 
